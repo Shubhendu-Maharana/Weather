@@ -34,7 +34,7 @@ const WeatherForecastRow = ({ forecastData, day }) => {
                 <Image source={{
                     height: 30,
                     width: 30,
-                    uri: "http:" + "//cdn.weatherapi.com/weather/64x64/day/143.png"
+                    uri: `https:${forecastData?.day.condition.icon}`
                 }} />
                 <Text style={{
                     fontFamily: 'Comfortaa_400Regular',

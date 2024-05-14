@@ -37,7 +37,7 @@ const Test = ({ currentWeatherData, forecastData }) => {
                         <Image source={{
                             height: 200,
                             width: 200,
-                            uri: `http:${currentWeatherData?.current.condition.icon}`
+                            uri: `https:${currentWeatherData?.current.condition.icon}`
                         }} />
                     </View>
 

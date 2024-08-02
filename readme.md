@@ -1,13 +1,16 @@
 
-# 🌦️ Weather App 🌦️
+<img src="https://camo.githubusercontent.com/34c36040fc5717eee8a5801f2d1702871f58b1f3c0c04ee64c2a68b299e2e407/68747470733a2f2f626d63646e2e6e6c2f6173736574732f776561746865722d69636f6e732f76332e302f66696c6c2f7376672f706172746c792d636c6f7564792d6461792e737667" />
 
-Welcome to the Weather App! This React Native application provides weather forecasts and current weather information. Built with Expo, Tailwind CSS, and automated using GitHub Actions, this app ensures a smooth and modern user experience 🚀
+# 🌦️ Weather App 📱
+
+Welcome to the Weather App! - a React Native Weather App built entirely with JavaScript. This React Native application provides weather forecasts and current weather information. Built with Expo, Tailwind CSS, and automated using GitHub Actions, this app ensures a smooth and modern user experience 🚀
 
 ## Features
-**Current Weather**: Get real-time weather information for your location. <br>
-**Weather Forecast**: View the weather forecast for the next few days. <br>
-**User-Friendly UI**: Designed with Tailwind CSS for a clean and responsive interface. <br>
-**Automated Workflow**: Continuous integration and deployment using GitHub Actions. <br>
+- 📍 Blended Expo Location for precise weather data of you location. <br>
+- ⛅️ Access to up-to-date weather forecasts, including temperature, humidity, wind speed, and more. <br>
+- 🔍 View the weather forecast for the next few days. <br>
+- 🌈 Designed with Tailwind CSS for a clean and responsive interface. <br>
+- 💻 Continuous integration and deployment using GitHub Actions. <br>
 
 ## Screenshots
 <img src="/Screenshots/Screenshot-1.jpg" width="50%" />
@@ -20,6 +23,12 @@ The source repo is currently in private, will be public soon.
 To get started with the Weather App, follow these steps:
 - Download latest release from Release section of this repo
 - Install as normal apk file
+
+## Feedback
+Download the app 📱 now on from the Release section and let me know what you think. I truly value your feedback and support—it makes a huge difference to me. Thank you for taking the time to check out my Weather App project!
+
+## 👋 Developer
+- Shubhendu Maharana
 
 ## Contact
 For any questions or feedback, please contact maharanasubhendu3@gmail.com

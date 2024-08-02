@@ -25,7 +25,7 @@ const Test3 = ({ weatherData }) => {
             </View>
             <View style={styles.row}>
                 <Text style={styles.font}>Real feel</Text>
-                <Text style={styles.font}>{weatherData?.current.feelslike_c}&deg;</Text>
+                <Text style={styles.font}>{Math.round(weatherData?.current.feelslike_c)}&deg;C</Text>
             </View>
             <View style={styles.row}>
                 <Text style={styles.font}>UV</Text>

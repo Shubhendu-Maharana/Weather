@@ -1,14 +1,14 @@
 import React from 'react';
-import Test2 from "./Test2"
+import HourlyForecastBox from "./HourlyForecastBox"
 import { StatusBar, currentHeight, Text, View, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useFonts, Comfortaa_400Regular, Comfortaa_700Bold } from '@expo-google-fonts/comfortaa';
 import WeatherForecastRow from './components/WeatherForecastRow';
-import Test3 from './Test3';
+import MoreInfo from './MoreInfo';
 
 
-const Test = ({ currentWeatherData, forecastData }) => {
+const HomeScreen = ({ currentWeatherData, forecastData }) => {
 
     const [fontsLoaded] = useFonts({
         Comfortaa_400Regular,
@@ -44,6 +44,7 @@ const Test = ({ currentWeatherData, forecastData }) => {
                     <View style={{
                         flex: 1,
                         alignItems: 'center',
+                        marginTop: -10
                     }}>
                         <View style={{
                             marginBottom: -15
@@ -60,14 +61,14 @@ const Test = ({ currentWeatherData, forecastData }) => {
                                 color: 'white',
                                 fontSize: 100,
                                 marginVertical: -15
-                            }}>{currentWeatherData?.current.temp_c}&deg;</Text>
+                            }}>{Math.round(currentWeatherData?.current.temp_c)}&deg;</Text>
                         </View>
                         <View>
                             <Text style={{
                                 fontFamily: 'Comfortaa_400Regular',
                                 color: 'white',
                                 fontSize: 20
-                            }}>{forecastData?.forecastday[0].day.maxtemp_c}&deg;/{forecastData?.forecastday[0].day.mintemp_c}&deg;</Text>
+                            }}>{Math.round(forecastData?.forecastday[0].day.maxtemp_c)}&deg;/{Math.round(forecastData?.forecastday[0].day.mintemp_c)}&deg;</Text>
                         </View>
                         <View style={{
                             flexDirection: 'row',
@@ -90,12 +91,12 @@ const Test = ({ currentWeatherData, forecastData }) => {
                 </View>
 
                 <View style={{
-                    backgroundColor: 'rgba(0, 0, 0, .25)',
+                    backgroundColor: 'white',
                     paddingVertical: 20,
                     paddingHorizontal: 18,
                     borderRadius: 20,
                     gap: 20,
-                    marginTop: 60
+                    marginTop: 30
                 }}>
                     <View style={{
                         flexDirection: 'row',
@@ -103,17 +104,18 @@ const Test = ({ currentWeatherData, forecastData }) => {
                     }}>
                         <View style={{
                             flexDirection: 'row',
+                            flex: 1, // Remove this after enabling "More Details button"
                             alignItems: 'center',
                             justifyContent: 'center',
                             gap: 5
                         }}>
-                            <MaterialIcons name="date-range" size={24} color="#ccc" />
+                            <MaterialIcons name="date-range" size={24} color="#555" />
                             <Text style={{
                                 fontFamily: 'Comfortaa_400Regular',
-                                color: '#ccc'
+                                color: '#555'
                             }}>5-day forecast</Text>
                         </View>
-                        <View style={{
+                        {/* <View style={{
                             flexDirection: 'row',
                             gap: 5
                         }}>
@@ -122,7 +124,7 @@ const Test = ({ currentWeatherData, forecastData }) => {
                                 color: '#ccc'
                             }}>More Details</Text>
                             <MaterialIcons name="arrow-forward-ios" size={24} color="#ccc" />
-                        </View>
+                        </View> */}
                     </View>
 
                     <View style={{
@@ -133,7 +135,7 @@ const Test = ({ currentWeatherData, forecastData }) => {
                         <WeatherForecastRow forecastData={forecastData?.forecastday[2]} day={forecastData?.forecastday[2].date} />
                     </View>
 
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={{
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -147,15 +149,15 @@ const Test = ({ currentWeatherData, forecastData }) => {
                             fontSize: 18,
                             marginTop: -4
                         }}>Full forecast</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
 
-            <Test2 forecastData={forecastData} />
-            <Test3 weatherData={currentWeatherData} />
+            <HourlyForecastBox forecastData={forecastData} />
+            <MoreInfo weatherData={currentWeatherData} />
 
         </View>
     )
 }
 
-export default Test
+export default HomeScreen

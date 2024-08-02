@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View, ScrollView } from 'react-native'
-import HourlyForecastRow from './HourlyForecastRow';
+import HourlyForecastRow from './components/HourlyForecastRow';
 import { useFonts, Comfortaa_400Regular, Comfortaa_700Bold } from '@expo-google-fonts/comfortaa';
 import { FontAwesome6 } from '@expo/vector-icons';
 

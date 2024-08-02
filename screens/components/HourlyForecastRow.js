@@ -73,8 +73,9 @@ const HourlyForecastRow = ({ data }) => {
             gap: 5
         }}>
             <Text style={{
-                fontFamily: 'Comfortaa_700Bold'
-            }}>{data?.temp_c}&deg;</Text>
+                fontFamily: 'Comfortaa_700Bold',
+                color: '#555'
+            }}>{formatTime(data?.time)}</Text>
             <Image source={{
                 height: 60,
                 width: 60,
@@ -89,15 +90,16 @@ const HourlyForecastRow = ({ data }) => {
                 }}
                     name="location-arrow"
                     size={18}
-                    color="black" />
+                    color="#555" />
                 <Text style={{
-                    fontFamily: 'Comfortaa_700Bold'
-                }}>{data?.wind_kph}km/h</Text>
+                    fontFamily: 'Comfortaa_700Bold',
+                    color: '#555'
+                }}>{Math.round(data?.wind_kph)}km/h</Text>
             </View>
             <Text style={{
                 fontFamily: 'Comfortaa_400Regular',
                 color: '#555'
-            }}>{formatTime(data?.time)}</Text>
+            }}>{Math.round(data?.temp_c)}&deg;C</Text>
         </View>
     )
 }

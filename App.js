@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, ScrollView, RefreshControl } from 'react-native';
-import Test from './screens/Test';
+import HomeScreen from './screens/HomeScreen';
 import * as Location from 'expo-location';
 
 export default function App() {
@@ -19,7 +19,7 @@ export default function App() {
       try {
         let currentLocation = await Location.getCurrentPositionAsync({});
         const position = `${currentLocation.coords.latitude},${currentLocation.coords.longitude}`;
-        const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${position}&days=6&aqi=yes&alerts=yes`;
+        const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${position}&days=6`;
         const res = await fetch(API_URL);
         const data = await res.json();
         setWeatherData(data);
@@ -46,7 +46,7 @@ export default function App() {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
-        <Test currentWeatherData={currentWeatherData} forecastData={forecastData} />
+        <HomeScreen currentWeatherData={currentWeatherData} forecastData={forecastData} />
       </ScrollView>
     </SafeAreaView>
   );

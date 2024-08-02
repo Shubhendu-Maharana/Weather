@@ -38,17 +38,17 @@ const WeatherForecastRow = ({ forecastData, day }) => {
                 }} />
                 <Text style={{
                     fontFamily: 'Comfortaa_400Regular',
-                    color: '#ccc'
+                    color: '#555'
                 }}>{getDayName(day)}</Text>
                 <Text style={{
                     fontFamily: 'Comfortaa_400Regular',
-                    color: '#ccc'
+                    color: '#555'
                 }}>{forecastData?.day.condition.text}</Text>
             </View>
             <Text style={{
                 fontFamily: 'Comfortaa_400Regular',
-                color: '#ccc'
-            }}>{forecastData?.day.maxtemp_c}&deg;&nbsp;/&nbsp;{forecastData?.day.mintemp_c}&deg;</Text>
+                color: '#555'
+            }}>{Math.round(forecastData?.day.maxtemp_c)}&deg;&nbsp;/&nbsp;{Math.round(forecastData?.day.mintemp_c)}&deg;</Text>
         </View>
     )
 }

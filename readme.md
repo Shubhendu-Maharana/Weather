@@ -11,7 +11,8 @@ Welcome to the Weather App! This React Native application provides weather forec
 
 ## Screenshots
 ### Home Screen
-![Homescreen screenshot](/Screenshots/Screenshot-1.jpg)
+<!-- ![Homescreen screenshot](/Screenshots/Screenshot-1.jpg) -->
+<img src="/Screenshots/Screenshot-1.jpg" width="50%" />
 
 ### Forecast and More Current Weather Details
 ![Forecast screenshot](/Screenshots/Screenshot-2.jpg)

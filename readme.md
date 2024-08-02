@@ -2,7 +2,7 @@
     <img src="https://camo.githubusercontent.com/34c36040fc5717eee8a5801f2d1702871f58b1f3c0c04ee64c2a68b299e2e407/68747470733a2f2f626d63646e2e6e6c2f6173736574732f776561746865722d69636f6e732f76332e302f66696c6c2f7376672f706172746c792d636c6f7564792d6461792e737667" width="50%" />
 </p>
 
-# <img src="https://camo.githubusercontent.com/5e6c9705a71afe63cb5cc1253dc9544cc35e098a4105f4e5f37b16ffaf580f7b/68747470733a2f2f626d63646e2e6e6c2f6173736574732f776561746865722d69636f6e732f76332e302f66696c6c2f7376672f7261696e2e737667" width="30" />  Weather App 📱
+# <img src="https://camo.githubusercontent.com/5e6c9705a71afe63cb5cc1253dc9544cc35e098a4105f4e5f37b16ffaf580f7b/68747470733a2f2f626d63646e2e6e6c2f6173736574732f776561746865722d69636f6e732f76332e302f66696c6c2f7376672f7261696e2e737667" width="60" />  Weather App 📱
 
 Welcome to the Weather App! - a React Native Weather App built entirely with JavaScript. This React Native application provides weather forecasts and current weather information. Built with Expo, Tailwind CSS, and automated using GitHub Actions, this app ensures a smooth and modern user experience 🚀
 

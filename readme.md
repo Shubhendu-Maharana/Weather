@@ -10,8 +10,8 @@ Welcome to the Weather App! This React Native application provides weather forec
 ** Automated Workflow **: Continuous integration and deployment using GitHub Actions.
 
 ## Screenshots
-<img src="/Screenshots/Screenshot-1.jpg" width="40%" />
-<img src="/Screenshots/Screenshot-1.jpg" width="40%" />
+<img src="/Screenshots/Screenshot-1.jpg" width="50%" />
+<img src="/Screenshots/Screenshot-2.jpg" width="50%" />
 
 ## Note
 The source repo is currently in private, will be public soon.

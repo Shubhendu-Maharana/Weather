@@ -29,7 +29,7 @@ To get started with the Weather App, follow these steps:
 Download the app 📱 now on from the Release section and let me know what you think. I truly value your feedback and support—it makes a huge difference to me. Thank you for taking the time to check out my Weather App project!
 
 ## 👋 Developer
-- Shubhendu Maharana
+- [Shubhendu Maharana](https://github.com/Shubhendu-Maharana)
 
 ## Contact
 For any questions or feedback, please contact maharanasubhendu3@gmail.com

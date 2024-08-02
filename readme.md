@@ -4,10 +4,10 @@
 Welcome to the Weather App! This React Native application provides weather forecasts and current weather information. Built with Expo, Tailwind CSS, and automated using GitHub Actions, this app ensures a smooth and modern user experience 🚀
 
 ## Features
-** Current Weather **: Get real-time weather information for your location.
-** Weather Forecast **: View the weather forecast for the next few days.
-** User-Friendly UI **: Designed with Tailwind CSS for a clean and responsive interface.
-** Automated Workflow **: Continuous integration and deployment using GitHub Actions.
+**Current Weather**: Get real-time weather information for your location. <br>
+**Weather Forecast**: View the weather forecast for the next few days. <br>
+**User-Friendly UI**: Designed with Tailwind CSS for a clean and responsive interface. <br>
+**Automated Workflow**: Continuous integration and deployment using GitHub Actions. <br>
 
 ## Screenshots
 <img src="/Screenshots/Screenshot-1.jpg" width="50%" />

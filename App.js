@@ -1,8 +1,10 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, ScrollView, RefreshControl } from 'react-native';
-import HomeScreen from './screens/HomeScreen';
 import * as Location from 'expo-location';
+import HomeScreen from './screens/HomeScreen';
+
+const PRIMARY_COLOR = "blue";
 
 export default function App() {
   const [refreshing, setRefreshing] = useState(false);
@@ -40,13 +42,14 @@ export default function App() {
 
   return (
     <SafeAreaView>
-      <StatusBar style="light" />
+      <StatusBar translucent={false} style='light' backgroundColor={PRIMARY_COLOR} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
         <HomeScreen currentWeatherData={currentWeatherData} forecastData={forecastData} />
+
       </ScrollView>
     </SafeAreaView>
   );

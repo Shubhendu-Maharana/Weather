@@ -53,7 +53,7 @@ Write you API KEY genereated from [here](https://www.weatherapi.com/) into ".env
 or
 Run this command:
 ```
-echo "EXPO_PUBLIC_API_KEY=YOUR_API_KEY > .env
+echo "EXPO_PUBLIC_API_KEY=YOUR_API_KEY" > .env
 ```
 Replace "YOUR_API_KEY" with your KEY.
 

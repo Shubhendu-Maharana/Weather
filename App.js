@@ -1,56 +1,62 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { View, Text, TextInput } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, ScrollView, RefreshControl } from 'react-native';
-import * as Location from 'expo-location';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from '@react-navigation/drawer';
 import HomeScreen from './screens/HomeScreen';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
-const PRIMARY_COLOR = "blue";
+const Drawer = createDrawerNavigator();
 
 export default function App() {
-  const [refreshing, setRefreshing] = useState(false);
-  const [currentWeatherData, setWeatherData] = useState(null);
-  const [forecastData, setForecastData] = useState(null);
-  const API_KEY = "12ff0dc2354044f397f112153241801"
+  const [text, setText] = useState('');
+  const [cityName, setCityName] = useState('');
 
-  useEffect(() => {
-    const getWeatherData = async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status === 'denied') {
-        status = await Location.requestForegroundPermissionsAsync();
-      }
-      try {
-        let currentLocation = await Location.getCurrentPositionAsync({});
-        const position = `${currentLocation.coords.latitude},${currentLocation.coords.longitude}`;
-        const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${position}&days=6`;
-        const res = await fetch(API_URL);
-        const data = await res.json();
-        setWeatherData(data);
-        setForecastData(data.forecast);
-      } catch (error) {
-        console.error(error);;
-      }
-    }
-    getWeatherData();
-  }, [refreshing]);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
+  function CustomDrawerContent({ navigation }) {
+    return (
+      <DrawerContentScrollView>
+        <View className='px-4 py-6'>
+          <View className='flex-row items-center justify-between pr-2 gap-5'>
+            <TextInput
+              onChangeText={() => setText()}
+              value={text}
+              className="border-[1.5px] px-3 py-2 rounded-full text-xl font-extrabold flex-1"
+              placeholder="Search City"
+            />
+            <TouchableOpacity onPress={() => setCityName(text)}>
+              <FontAwesome6 name="magnifying-glass" size={30} color="black" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </DrawerContentScrollView>
+    );
+  }
 
   return (
-    <SafeAreaView>
-      <StatusBar translucent={false} style='light' backgroundColor={PRIMARY_COLOR} />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
-        <HomeScreen currentWeatherData={currentWeatherData} forecastData={forecastData} />
-
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <StatusBar translucent={true} style='light' />
+      <Drawer.Navigator
+        initialRouteName="Home"
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+        screenOptions={{
+          drawerStyle: {
+            backgroundColor: 'skyblue',
+            width: "80%",
+          },
+        }}
+      >
+        <Drawer.Screen
+          options={{ headerShown: false }}
+          name="Home"
+          children={() => <HomeScreen city={cityName || "New Delhi"} />}
+        />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }

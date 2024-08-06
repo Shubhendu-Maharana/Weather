@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, TouchableOpacity, View, Image, ScrollView, StyleSheet } from "react-native";
+import React, { useCallback, useState, useEffect } from 'react';
+import { Text, TouchableOpacity, View, Image, ScrollView, StyleSheet, RefreshControl } from "react-native";
 import { useFonts, Comfortaa_400Regular, Comfortaa_700Bold } from '@expo-google-fonts/comfortaa';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -9,8 +9,48 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Feather from '@expo/vector-icons/Feather';
 import HourlyForecast from './components/HourlyForecast';
 import DailyForecast from './components/DailyForecast';
+import * as Location from 'expo-location';
+import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = ({ currentWeatherData, forecastData }) => {
+
+const HomeScreen = ({ city }) => {
+    const navigation = useNavigation();
+    const [refreshing, setRefreshing] = useState(false);
+    const [currentWeatherData, setWeatherData] = useState(null);
+    const [forecastData, setForecastData] = useState(null);
+    const API_KEY = "12ff0dc2354044f397f112153241801"
+
+    useEffect(() => {
+        const getWeatherData = async () => {
+            try {
+                const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=6`;
+                const res = await fetch(API_URL);
+                const data = await res.json();
+                setWeatherData(data);
+                setForecastData(data.forecast);
+            } catch (error) {
+                console.error(error);;
+            }
+        }
+        getWeatherData();
+    }, [refreshing, city]);
+
+    const getLocation = async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status === 'denied') {
+            status = await Location.requestForegroundPermissionsAsync();
+        }
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        setPosition(`${currentLocation.coords.latitude},${currentLocation.coords.longitude}`);
+    }
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
+
     const [fontsLoaded] = useFonts({
         Comfortaa_400Regular,
         Comfortaa_700Bold
@@ -79,157 +119,168 @@ const HomeScreen = ({ currentWeatherData, forecastData }) => {
     }
 
     return (
-        <View className='bg-[#3c619c] min-h-screen p-3'>
-            <View className='flex-row gap-4 items-center'>
-                <TouchableOpacity>
-                    <MaterialIcons name="menu" size={40} color="white" />
-                </TouchableOpacity>
-                <Text className='text-[30px] text-white' style={styles.setFontFamily}>{currentWeatherData?.location.name}</Text>
-            </View>
-
-            <View className='bg-inherit flex-row px-2 relative'>
-                <View className='gap-[50px]'>
-                    <View>
-                        <Text className='text-[65px] text-white' style={styles.setFontFamily}>{Math.round(currentWeatherData?.current.temp_c)}&deg;</Text>
-                        <Text className='text-[18px] text-white' style={styles.setFontFamily}>{currentWeatherData?.current.condition.text}</Text>
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
+            <View className='bg-[#3c619c] min-h-screen p-3 pt-8'>
+                <View className='flex-row items-center justify-between px-2'>
+                    <View className='flex-row gap-4 items-center'>
+                        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                            <MaterialIcons name="menu" size={40} color="white" />
+                        </TouchableOpacity>
+                        <Text className='text-[30px] text-white mb-1' style={styles.setFontFamily}>{currentWeatherData?.location.name}</Text>
                     </View>
-                    <View>
-                        <Text className='text-[18px] text-white' style={styles.setFontFamily}>{Math.round(forecastData?.forecastday[0].day.maxtemp_c)}&deg; / {Math.round(forecastData?.forecastday[0].day.mintemp_c)}&deg; Feels like {Math.round(currentWeatherData?.current.feelslike_c)}&deg;</Text>
+                    <TouchableOpacity onPress={() => getLocation()}>
+                        <FontAwesome6 name="location-dot" size={25} color="white" />
+                    </TouchableOpacity>
+                </View>
+
+                <View className='bg-inherit flex-row px-2 relative'>
+                    <View className='gap-[50px]'>
+                        <View>
+                            <Text className='text-[65px] text-white' style={styles.setFontFamily}>{Math.round(currentWeatherData?.current.temp_c)}&deg;</Text>
+                            <Text className='text-[18px] text-white' style={styles.setFontFamily}>{currentWeatherData?.current.condition.text}</Text>
+                        </View>
+                        <View>
+                            <Text className='text-[18px] text-white' style={styles.setFontFamily}>{Math.round(forecastData?.forecastday[0].day.maxtemp_c)}&deg; / {Math.round(forecastData?.forecastday[0].day.mintemp_c)}&deg; Feels like {Math.round(currentWeatherData?.current.feelslike_c)}&deg;</Text>
+                        </View>
+                    </View>
+
+                    <View className='absolute right-0 h-full w-[65%] -z-10'>
+                        <Image
+                            source={{
+                                uri: `https:${currentWeatherData?.current.condition.icon}`
+                            }}
+                            className='h-full'
+                        />
                     </View>
                 </View>
 
-                <View className='absolute right-0 h-full w-[65%] -z-10'>
-                    <Image
-                        source={{
-                            uri: `https:${currentWeatherData?.current.condition.icon}`
-                        }}
-                        className='h-full'
-                    />
-                </View>
-            </View>
-
-            <View className='mt-10 bg-white/[.25] px-4 py-4 rounded-3xl'>
-                <View className='flex-row gap-1 items-center'>
-                    <MaterialCommunityIcons name="hours-24" size={24} color={'white'} />
-                    <Text className='text-white text-base'>Hourly forecast</Text>
-                </View>
-                <View className='border-b-[1px] border-gray-300 my-3'></View>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    <View style={{
-                        flexDirection: 'row',
-                        gap: 20
-                    }}>
-                        {forecastData?.forecastday[0].hour.map((hourlyData, key) => (
-                            isMatchingHour(hourlyData.time) ? <HourlyForecast key={key} data={hourlyData} /> : null
-                        ))}
-                        {forecastData?.forecastday[1].hour
-                            .filter((hourlyData) => {
-                                const hour = new Date(hourlyData.time).getHours();
-                                return hour <= currentHour;
-                            })
-                            .map((hourlyData, key) => (
-                                <HourlyForecast key={key} data={hourlyData} />
+                <View className='mt-10 bg-white/[.25] px-4 py-4 rounded-3xl'>
+                    <View className='flex-row gap-1 items-center'>
+                        <MaterialCommunityIcons name="hours-24" size={24} color={'white'} />
+                        <Text className='text-white text-base'>Hourly forecast</Text>
+                    </View>
+                    <View className='border-b-[1px] border-gray-300 my-3'></View>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                        <View style={{
+                            flexDirection: 'row',
+                            gap: 20
+                        }}>
+                            {forecastData?.forecastday[0].hour.map((hourlyData, key) => (
+                                isMatchingHour(hourlyData.time) ? <HourlyForecast key={key} data={hourlyData} /> : null
                             ))}
-                    </View>
-                </ScrollView>
-            </View>
-
-            <View className='mt-5 bg-white/[.25] px-4 py-4 rounded-3xl'>
-                <View className='flex-row gap-1 items-center'>
-                    <MaterialCommunityIcons name="calendar-today" size={24} color={'white'} />
-                    <Text className='text-white text-base'>Daily forecast</Text>
-                </View>
-                <View className='border-b-[1px] border-gray-300 my-3'></View>
-
-                <DailyForecast forecastData={forecastData?.forecastday[0]} day={"Today"} />
-                <DailyForecast forecastData={forecastData?.forecastday[1]} day={forecastData?.forecastday[1].date} />
-                <DailyForecast forecastData={forecastData?.forecastday[2]} day={forecastData?.forecastday[2].date} />
-            </View>
-
-            <View className='mt-5 flex-row flex-wrap justify-between'>
-                <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
-                    <View className='flex-row items-center gap-2'>
-                        <FontAwesome6 name="wind" size={15} color="white" />
-                        <Text className='text-white text-[15px]'>Wind</Text>
-                    </View>
-                    <View className='flex-row items-center gap-3'>
-                        <FontAwesome6 style={{
-                            transform: [{ rotate: `${getRotationAngle(currentWeatherData?.current.wind_dir) - 45}deg` }]
-                        }}
-                            name="location-arrow"
-                            size={20}
-                            color="white" />
-                        <Text className='text-white text-base'>{currentWeatherData?.current.wind_kph}km/h</Text>
-                    </View>
-                </View>
-                <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
-                    <View className='flex-row gap-1 items-center'>
-                        <Ionicons name="water-outline" size={15} color={'white'} />
-                        <Text className='text-white text-[15px]'>Humidity</Text>
-                    </View>
-                    <Text className='text-white text-2xl'>{currentWeatherData?.current.humidity}%</Text>
-                </View>
-                <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
-                    <View className='flex-row gap-1 items-center'>
-                        <FontAwesome name="compress" size={15} color="white" />
-                        <Text className='text-white text-[15px]'>Pressure</Text>
-                    </View>
-                    <Text className='text-white text-2xl'>{currentWeatherData?.current.pressure_mb}mbar</Text>
-                </View>
-                <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
-                    <View className='flex-row gap-1 items-center'>
-                        <FontAwesome6 name="cloud-rain" size={15} color="white" />
-                        <Text className='text-white text-[15px]'>Chance of rain</Text>
-                    </View>
-                    <Text className='text-white text-2xl'>{forecastData?.forecastday[0].day.daily_chance_of_rain}%</Text>
-                </View>
-                <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
-                    <View className='flex-row gap-1 items-center'>
-                        <MaterialIcons name="visibility" size={15} color="white" />
-                        <Text className='text-white text-[15px]'>Visibility</Text>
-                    </View>
-                    <Text className='text-white text-2xl'>{currentWeatherData?.current.vis_km}km</Text>
-                </View>
-                <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
-                    <View className='flex-row gap-1 items-center'>
-                        <MaterialIcons name="dew-point" size={15} color="white" />
-                        <Text className='text-white text-[15px]'>Dew point</Text>
-                    </View>
-                    <Text className='text-white text-2xl'>{Math.round(currentWeatherData?.current.dewpoint_c)}&deg;</Text>
-                </View>
-                <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[100%] my-1 flex-row justify-around'>
-                    <View>
-                        <View className='flex-row gap-1 items-center justify-center'>
-                            <Feather name="sunrise" size={15} color="white" />
-                            <Text className='text-white text-[15px]'>Sunrise</Text>
+                            {forecastData?.forecastday[1].hour
+                                .filter((hourlyData) => {
+                                    const hour = new Date(hourlyData.time).getHours();
+                                    return hour <= currentHour;
+                                })
+                                .map((hourlyData, key) => (
+                                    <HourlyForecast key={key} data={hourlyData} />
+                                ))}
                         </View>
-                        <Text className='text-white text-2xl'>{forecastData?.forecastday[0].astro.sunrise}</Text>
+                    </ScrollView>
+                </View>
+
+                <View className='mt-5 bg-white/[.25] px-4 py-4 rounded-3xl'>
+                    <View className='flex-row gap-1 items-center'>
+                        <MaterialCommunityIcons name="calendar-today" size={24} color={'white'} />
+                        <Text className='text-white text-base'>Daily forecast</Text>
                     </View>
-                    <View>
-                        <View className='flex-row gap-1 items-center justify-center'>
-                            <Feather name="sunset" size={15} color="white" />
-                            <Text className='text-white text-[15px]'>Sunset</Text>
+                    <View className='border-b-[1px] border-gray-300 my-3'></View>
+
+                    <DailyForecast forecastData={forecastData?.forecastday[0]} day={"Today"} />
+                    <DailyForecast forecastData={forecastData?.forecastday[1]} day={forecastData?.forecastday[1].date} />
+                    <DailyForecast forecastData={forecastData?.forecastday[2]} day={forecastData?.forecastday[2].date} />
+                </View>
+
+                <View className='mt-5 flex-row flex-wrap justify-between'>
+                    <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
+                        <View className='flex-row items-center gap-2'>
+                            <FontAwesome6 name="wind" size={15} color="white" />
+                            <Text className='text-white text-[15px]'>Wind</Text>
                         </View>
-                        <Text className='text-white text-2xl'>{forecastData?.forecastday[0].astro.sunset}</Text>
+                        <View className='flex-row items-center gap-3'>
+                            <FontAwesome6 style={{
+                                transform: [{ rotate: `${getRotationAngle(currentWeatherData?.current.wind_dir) - 45}deg` }]
+                            }}
+                                name="location-arrow"
+                                size={20}
+                                color="white" />
+                            <Text className='text-white text-base'>{currentWeatherData?.current.wind_kph}km/h</Text>
+                        </View>
+                    </View>
+                    <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
+                        <View className='flex-row gap-1 items-center'>
+                            <Ionicons name="water-outline" size={15} color={'white'} />
+                            <Text className='text-white text-[15px]'>Humidity</Text>
+                        </View>
+                        <Text className='text-white text-2xl'>{currentWeatherData?.current.humidity}%</Text>
+                    </View>
+                    <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
+                        <View className='flex-row gap-1 items-center'>
+                            <FontAwesome name="compress" size={15} color="white" />
+                            <Text className='text-white text-[15px]'>Pressure</Text>
+                        </View>
+                        <Text className='text-white text-2xl'>{currentWeatherData?.current.pressure_mb}mbar</Text>
+                    </View>
+                    <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
+                        <View className='flex-row gap-1 items-center'>
+                            <FontAwesome6 name="cloud-rain" size={15} color="white" />
+                            <Text className='text-white text-[15px]'>Chance of rain</Text>
+                        </View>
+                        <Text className='text-white text-2xl'>{forecastData?.forecastday[0].day.daily_chance_of_rain}%</Text>
+                    </View>
+                    <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
+                        <View className='flex-row gap-1 items-center'>
+                            <MaterialIcons name="visibility" size={15} color="white" />
+                            <Text className='text-white text-[15px]'>Visibility</Text>
+                        </View>
+                        <Text className='text-white text-2xl'>{currentWeatherData?.current.vis_km}km</Text>
+                    </View>
+                    <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
+                        <View className='flex-row gap-1 items-center'>
+                            <MaterialIcons name="dew-point" size={15} color="white" />
+                            <Text className='text-white text-[15px]'>Dew point</Text>
+                        </View>
+                        <Text className='text-white text-2xl'>{Math.round(currentWeatherData?.current.dewpoint_c)}&deg;</Text>
+                    </View>
+                    <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[100%] my-1 flex-row justify-around'>
+                        <View>
+                            <View className='flex-row gap-1 items-center justify-center'>
+                                <Feather name="sunrise" size={15} color="white" />
+                                <Text className='text-white text-[15px]'>Sunrise</Text>
+                            </View>
+                            <Text className='text-white text-2xl'>{forecastData?.forecastday[0].astro.sunrise}</Text>
+                        </View>
+                        <View>
+                            <View className='flex-row gap-1 items-center justify-center'>
+                                <Feather name="sunset" size={15} color="white" />
+                                <Text className='text-white text-[15px]'>Sunset</Text>
+                            </View>
+                            <Text className='text-white text-2xl'>{forecastData?.forecastday[0].astro.sunset}</Text>
+                        </View>
+                    </View>
+                    <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[100%] my-1 flex-row justify-around'>
+                        <View>
+                            <Text className='text-white text-[15px] text-center'>Moonrise</Text>
+                            <Text className='text-white text-2xl'>{forecastData?.forecastday[0].astro.moonrise}</Text>
+                        </View>
+                        <View>
+                            <Text className='text-white text-[15px] text-center'>Moonset</Text>
+                            <Text className='text-white text-2xl'>{forecastData?.forecastday[0].astro.moonset}</Text>
+                        </View>
                     </View>
                 </View>
-                <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[100%] my-1 flex-row justify-around'>
-                    <View>
-                        <Text className='text-white text-[15px] text-center'>Moonrise</Text>
-                        <Text className='text-white text-2xl'>{forecastData?.forecastday[0].astro.moonrise}</Text>
-                    </View>
-                    <View>
-                        <Text className='text-white text-[15px] text-center'>Moonset</Text>
-                        <Text className='text-white text-2xl'>{forecastData?.forecastday[0].astro.moonset}</Text>
-                    </View>
+
+                <View>
+                    <Text className='text-white text-right p-2'>Updated on {formatDate(currentWeatherData?.current.last_updated)}</Text>
                 </View>
-            </View>
 
-            <View>
-                <Text className='text-white text-right p-2'>Updated on {formatDate(currentWeatherData?.current.last_updated)}</Text>
             </View>
-
-        </View>
+        </ScrollView>
     )
 }
 

@@ -24,8 +24,8 @@ Welcome to the Weather App! - a React Native Weather App built entirely with Jav
 - More bug fixed
 
 ## Screenshots
-<img src="/Screenshots/Screenshot-1.5-1.jpg" width="50%" />
-<img src="/Screenshots/Screenshot-1.5-2.jpg" width="50%" />
+<img src="/Screenshots/Screenshot-3.jpg" width="50%" />
+<img src="/Screenshots/Screenshot-4.jpg" width="50%" />
 
 ## Setup and Run locally
 To set up and run the Weather App locally, follow these steps:

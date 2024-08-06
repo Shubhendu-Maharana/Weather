@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -15,21 +15,40 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 const Drawer = createDrawerNavigator();
 
 export default function App() {
-  const [text, setText] = useState('');
-  const [cityName, setCityName] = useState('');
+  const [cityName, setCityName] = useState('New Delhi');
+  const [refreshing, setRefreshing] = useState(false);
+  const [currentWeatherData, setWeatherData] = useState(null);
+  const [forecastData, setForecastData] = useState(null);
+  const API_KEY = "12ff0dc2354044f397f112153241801"
+  var n = ''
 
-  function CustomDrawerContent({ navigation }) {
+  useEffect(() => {
+    const getWeatherData = async () => {
+      try {
+        const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${cityName}&days=6`;
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        setWeatherData(data);
+        setForecastData(data.forecast);
+      } catch (error) {
+        console.error(error);;
+      }
+    }
+    getWeatherData();
+  }, [refreshing, cityName]);
+
+  function CustomDrawerContent() {
     return (
       <DrawerContentScrollView>
         <View className='px-4 py-6'>
           <View className='flex-row items-center justify-between pr-2 gap-5'>
             <TextInput
-              onChangeText={() => setText()}
-              value={text}
+              onChangeText={(val) => n = val}
+              onEndEditing={() => setCityName(n)}
               className="border-[1.5px] px-3 py-2 rounded-full text-xl font-extrabold flex-1"
               placeholder="Search City"
             />
-            <TouchableOpacity onPress={() => setCityName(text)}>
+            <TouchableOpacity onPress={() => setCityName(n)}>
               <FontAwesome6 name="magnifying-glass" size={30} color="black" />
             </TouchableOpacity>
           </View>
@@ -54,7 +73,7 @@ export default function App() {
         <Drawer.Screen
           options={{ headerShown: false }}
           name="Home"
-          children={() => <HomeScreen city={cityName || "New Delhi"} />}
+          children={() => <HomeScreen setCityName={setCityName} refreshing={refreshing} setRefreshing={setRefreshing} currentWeatherData={currentWeatherData} forecastData={forecastData} />}
         />
       </Drawer.Navigator>
     </NavigationContainer>

@@ -13,27 +13,8 @@ import * as Location from 'expo-location';
 import { useNavigation } from '@react-navigation/native';
 
 
-const HomeScreen = ({ city }) => {
+const HomeScreen = ({ setCityName, refreshing, setRefreshing, currentWeatherData, forecastData }) => {
     const navigation = useNavigation();
-    const [refreshing, setRefreshing] = useState(false);
-    const [currentWeatherData, setWeatherData] = useState(null);
-    const [forecastData, setForecastData] = useState(null);
-    const API_KEY = "12ff0dc2354044f397f112153241801"
-
-    useEffect(() => {
-        const getWeatherData = async () => {
-            try {
-                const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=6`;
-                const res = await fetch(API_URL);
-                const data = await res.json();
-                setWeatherData(data);
-                setForecastData(data.forecast);
-            } catch (error) {
-                console.error(error);;
-            }
-        }
-        getWeatherData();
-    }, [refreshing, city]);
 
     const getLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -41,7 +22,7 @@ const HomeScreen = ({ city }) => {
             status = await Location.requestForegroundPermissionsAsync();
         }
         let currentLocation = await Location.getCurrentPositionAsync({});
-        setPosition(`${currentLocation.coords.latitude},${currentLocation.coords.longitude}`);
+        setCityName(`${currentLocation.coords.latitude},${currentLocation.coords.longitude}`);
     }
 
     const onRefresh = useCallback(() => {

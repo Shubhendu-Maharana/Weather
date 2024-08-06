@@ -22,7 +22,7 @@ export default function App() {
   const [forecastData, setForecastData] = useState(null);
   const [searchHistory, setSearchHistory] = useState([]);
   const [error, setError] = useState(null);
-  const API_KEY = "12ff0dc2354044f397f112153241801";
+  const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
   var n = '';
 
   useEffect(() => {

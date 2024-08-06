@@ -53,6 +53,6 @@ export default HourlyForecast
 
 const styles = StyleSheet.create({
     setFontFamily: {
-        fontFamily: 'Comfortaa_700Bold'
+        fontFamily: 'Comfortaa_400Regular'
     },
 });

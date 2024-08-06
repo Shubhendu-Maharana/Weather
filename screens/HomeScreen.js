@@ -111,7 +111,7 @@ const HomeScreen = ({ setCityName, refreshing, setRefreshing, currentWeatherData
                         <TouchableOpacity onPress={() => navigation.openDrawer()}>
                             <MaterialIcons name="menu" size={40} color="white" />
                         </TouchableOpacity>
-                        <Text className='text-[30px] text-white mb-1' style={styles.setFontFamily}>{currentWeatherData?.location.name}</Text>
+                        <Text className='text-[30px] text-white mb-1' style={styles.ComfortaaBold}>{currentWeatherData?.location.name}</Text>
                     </View>
                     <TouchableOpacity onPress={() => getLocation()}>
                         <FontAwesome6 name="location-dot" size={25} color="white" />
@@ -121,11 +121,11 @@ const HomeScreen = ({ setCityName, refreshing, setRefreshing, currentWeatherData
                 <View className='bg-inherit flex-row px-2 relative'>
                     <View className='gap-[50px]'>
                         <View>
-                            <Text className='text-[65px] text-white' style={styles.setFontFamily}>{Math.round(currentWeatherData?.current.temp_c)}&deg;</Text>
-                            <Text className='text-[18px] text-white' style={styles.setFontFamily}>{currentWeatherData?.current.condition.text}</Text>
+                            <Text className='text-[65px] text-white' style={styles.ComfortaaBold}>{Math.round(currentWeatherData?.current.temp_c)}&deg;</Text>
+                            <Text className='text-[18px] text-white' style={styles.ComfortaaRegular}>{currentWeatherData?.current.condition.text}</Text>
                         </View>
                         <View>
-                            <Text className='text-[18px] text-white' style={styles.setFontFamily}>{Math.round(forecastData?.forecastday[0].day.maxtemp_c)}&deg; / {Math.round(forecastData?.forecastday[0].day.mintemp_c)}&deg; Feels like {Math.round(currentWeatherData?.current.feelslike_c)}&deg;</Text>
+                            <Text className='text-[18px] text-white' style={styles.ComfortaaRegular}>{Math.round(forecastData?.forecastday[0].day.maxtemp_c)}&deg; / {Math.round(forecastData?.forecastday[0].day.mintemp_c)}&deg; Feels like {Math.round(currentWeatherData?.current.feelslike_c)}&deg;</Text>
                         </View>
                     </View>
 
@@ -142,7 +142,7 @@ const HomeScreen = ({ setCityName, refreshing, setRefreshing, currentWeatherData
                 <View className='mt-10 bg-white/[.25] px-4 py-4 rounded-3xl'>
                     <View className='flex-row gap-1 items-center'>
                         <MaterialCommunityIcons name="hours-24" size={24} color={'white'} />
-                        <Text className='text-white text-base'>Hourly forecast</Text>
+                        <Text className='text-white text-base' style={styles.ComfortaaBold}>Hourly forecast</Text>
                     </View>
                     <View className='border-b-[1px] border-gray-300 my-3'></View>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -168,7 +168,7 @@ const HomeScreen = ({ setCityName, refreshing, setRefreshing, currentWeatherData
                 <View className='mt-5 bg-white/[.25] px-4 py-4 rounded-3xl'>
                     <View className='flex-row gap-1 items-center'>
                         <MaterialCommunityIcons name="calendar-today" size={24} color={'white'} />
-                        <Text className='text-white text-base'>Daily forecast</Text>
+                        <Text className='text-white text-base' style={styles.ComfortaaBold}>Daily forecast</Text>
                     </View>
                     <View className='border-b-[1px] border-gray-300 my-3'></View>
 
@@ -181,7 +181,7 @@ const HomeScreen = ({ setCityName, refreshing, setRefreshing, currentWeatherData
                     <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
                         <View className='flex-row items-center gap-2'>
                             <FontAwesome6 name="wind" size={15} color="white" />
-                            <Text className='text-white text-[15px]'>Wind</Text>
+                            <Text className='text-white text-[15px]' style={styles.ComfortaaRegular}>Wind</Text>
                         </View>
                         <View className='flex-row items-center gap-3'>
                             <FontAwesome6 style={{
@@ -190,74 +190,74 @@ const HomeScreen = ({ setCityName, refreshing, setRefreshing, currentWeatherData
                                 name="location-arrow"
                                 size={20}
                                 color="white" />
-                            <Text className='text-white text-base'>{currentWeatherData?.current.wind_kph}km/h</Text>
+                            <Text className='text-white text-base' style={styles.ComfortaaRegular}>{currentWeatherData?.current.wind_kph}km/h</Text>
                         </View>
                     </View>
                     <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
                         <View className='flex-row gap-1 items-center'>
                             <Ionicons name="water-outline" size={15} color={'white'} />
-                            <Text className='text-white text-[15px]'>Humidity</Text>
+                            <Text className='text-white text-[15px]' style={styles.ComfortaaRegular}>Humidity</Text>
                         </View>
-                        <Text className='text-white text-2xl'>{currentWeatherData?.current.humidity}%</Text>
+                        <Text className='text-white text-xl' style={styles.ComfortaaRegular}>{currentWeatherData?.current.humidity}%</Text>
                     </View>
                     <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
                         <View className='flex-row gap-1 items-center'>
                             <FontAwesome name="compress" size={15} color="white" />
-                            <Text className='text-white text-[15px]'>Pressure</Text>
+                            <Text className='text-white text-[15px]' style={styles.ComfortaaRegular}>Pressure</Text>
                         </View>
-                        <Text className='text-white text-2xl'>{currentWeatherData?.current.pressure_mb}mbar</Text>
+                        <Text className='text-white text-xl' style={styles.ComfortaaRegular}>{currentWeatherData?.current.pressure_mb}mbar</Text>
                     </View>
                     <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
                         <View className='flex-row gap-1 items-center'>
                             <FontAwesome6 name="cloud-rain" size={15} color="white" />
-                            <Text className='text-white text-[15px]'>Chance of rain</Text>
+                            <Text className='text-white text-[15px]' style={styles.ComfortaaRegular}>Chance of rain</Text>
                         </View>
-                        <Text className='text-white text-2xl'>{forecastData?.forecastday[0].day.daily_chance_of_rain}%</Text>
+                        <Text className='text-white text-xl' style={styles.ComfortaaRegular}>{forecastData?.forecastday[0].day.daily_chance_of_rain}%</Text>
                     </View>
                     <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
                         <View className='flex-row gap-1 items-center'>
                             <MaterialIcons name="visibility" size={15} color="white" />
-                            <Text className='text-white text-[15px]'>Visibility</Text>
+                            <Text className='text-white text-[15px]' style={styles.ComfortaaRegular}>Visibility</Text>
                         </View>
-                        <Text className='text-white text-2xl'>{currentWeatherData?.current.vis_km}km</Text>
+                        <Text className='text-white text-xl' style={styles.ComfortaaRegular}>{currentWeatherData?.current.vis_km}km</Text>
                     </View>
                     <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[49%] my-1'>
                         <View className='flex-row gap-1 items-center'>
                             <MaterialIcons name="dew-point" size={15} color="white" />
-                            <Text className='text-white text-[15px]'>Dew point</Text>
+                            <Text className='text-white text-[15px]' style={styles.ComfortaaRegular}>Dew point</Text>
                         </View>
-                        <Text className='text-white text-2xl'>{Math.round(currentWeatherData?.current.dewpoint_c)}&deg;</Text>
+                        <Text className='text-white text-xl' style={styles.ComfortaaRegular}>{Math.round(currentWeatherData?.current.dewpoint_c)}&deg;</Text>
                     </View>
                     <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[100%] my-1 flex-row justify-around'>
                         <View>
                             <View className='flex-row gap-1 items-center justify-center'>
                                 <Feather name="sunrise" size={15} color="white" />
-                                <Text className='text-white text-[15px]'>Sunrise</Text>
+                                <Text className='text-white text-[15px]' style={styles.ComfortaaRegular}>Sunrise</Text>
                             </View>
-                            <Text className='text-white text-2xl'>{forecastData?.forecastday[0].astro.sunrise}</Text>
+                            <Text className='text-white text-xl' style={styles.ComfortaaRegular}>{forecastData?.forecastday[0].astro.sunrise}</Text>
                         </View>
                         <View>
                             <View className='flex-row gap-1 items-center justify-center'>
                                 <Feather name="sunset" size={15} color="white" />
-                                <Text className='text-white text-[15px]'>Sunset</Text>
+                                <Text className='text-white text-[15px]' style={styles.ComfortaaRegular}>Sunset</Text>
                             </View>
-                            <Text className='text-white text-2xl'>{forecastData?.forecastday[0].astro.sunset}</Text>
+                            <Text className='text-white text-xl' style={styles.ComfortaaRegular}>{forecastData?.forecastday[0].astro.sunset}</Text>
                         </View>
                     </View>
                     <View className='bg-white/[.25] px-4 py-4 rounded-3xl w-[100%] my-1 flex-row justify-around'>
                         <View>
-                            <Text className='text-white text-[15px] text-center'>Moonrise</Text>
-                            <Text className='text-white text-2xl'>{forecastData?.forecastday[0].astro.moonrise}</Text>
+                            <Text className='text-white text-[15px] text-center' style={styles.ComfortaaRegular}>Moonrise</Text>
+                            <Text className='text-white text-xl' style={styles.ComfortaaRegular}>{forecastData?.forecastday[0].astro.moonrise}</Text>
                         </View>
                         <View>
-                            <Text className='text-white text-[15px] text-center'>Moonset</Text>
-                            <Text className='text-white text-2xl'>{forecastData?.forecastday[0].astro.moonset}</Text>
+                            <Text className='text-white text-[15px] text-center' style={styles.ComfortaaRegular}>Moonset</Text>
+                            <Text className='text-white text-xl' style={styles.ComfortaaRegular}>{forecastData?.forecastday[0].astro.moonset}</Text>
                         </View>
                     </View>
                 </View>
 
                 <View>
-                    <Text className='text-white text-right p-2'>Updated on {formatDate(currentWeatherData?.current.last_updated)}</Text>
+                    <Text className='text-white text-right p-2' style={styles.ComfortaaRegular}>Updated on {formatDate(currentWeatherData?.current.last_updated)}</Text>
                 </View>
 
             </View>
@@ -268,7 +268,10 @@ const HomeScreen = ({ setCityName, refreshing, setRefreshing, currentWeatherData
 export default HomeScreen
 
 const styles = StyleSheet.create({
-    setFontFamily: {
+    ComfortaaBold: {
         fontFamily: 'Comfortaa_700Bold'
+    },
+    ComfortaaRegular: {
+        fontFamily: 'Comfortaa_400Regular'
     },
 });

@@ -20,9 +20,6 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          repository: ${{ secrets.REPO_URL }}
-          token: ${{ secrets.GIT_TOKEN }}
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -51,7 +48,7 @@ jobs:
       - name: Build Android APK
         run: |
           eas build --profile preview --platform android --non-interactive --clear-cache --local
-          mv ./*.apk Weather-v1.5.apk 
+          mv ./*.apk Weather-v2.apk 
 
       - name: Create Release
         id: create_release
@@ -59,12 +56,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
         with:
-          tag_name: v1.5
-          release_name: Weather v1.5
+          tag_name: v2
+          release_name: Weather v2
           body: |
             Changelog
-            - Revamped UI
-            - Glassmorphism like design
+            - Added sidebar
+            - City search functionality added
+            - City search history added
+            - More bug fixed
           draft: false
           prerelease: false
 
@@ -74,7 +73,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GIT_TOKEN}}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./Weather-v1.5.apk
-          asset_name: Weather-v1.5.apk
+          asset_path: ./Weather-v2.apk
+          asset_name: Weather-v2.apk
           asset_content_type: application/vnd.android.package-archive
           
